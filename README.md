@@ -1,36 +1,153 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# FlightDeals - Децентрализованная платформа продажи авиабилетов
 
-## Getting Started
+🚀 Блокчейн-платформа для прозрачной и безопасной покупки авиабилетов на базе Web3
 
-First, run the development server:
+## 📋 Описание проекта
+
+FlightDeals — это инновационная платформа для продажи авиабилетов, использующая технологию блокчейн для решения проблем овербукинга и непрозрачности цен. Платформа обеспечивает:
+
+- ✅ Прозрачное ценообразование без скрытых комиссий
+- 🔒 Безопасные транзакции через смарт-контракты
+- 🎫 Неизменяемые записи о билетах в блокчейне
+- 👤 Анонимность пользователей (адрес кошелька как ID)
+- ⚡ Мгновенные подтверждения транзакций
+
+## 🌟 Основные функции
+
+### Для пользователей
+- Просмотр доступных рейсов
+- Покупка билетов с использованием криптовалюты (NTI токены)
+- Управление своими заказами
+- Просмотр истории покупок
+
+### Для авиакомпаний
+- Публикация новых рейсов
+- Управление ценами и скидками
+- Отслеживание продаж
+- Статистика по рейсам
+
+### Для администраторов
+- Управление всеми авиакомпаниями
+- Мониторинг системы
+- Журнал аудита транзакций
+
+## 🛠 Технологический стек
+
+- **Frontend**: Next.js 15.1.3, React 19
+- **Styling**: Tailwind CSS
+- **Icons**: Lucide React
+- **Blockchain**: Web3 (MetaMask интеграция)
+- **Language**: JavaScript/JSX
+
+## 📦 Установка и запуск
+
+### Предварительные требования
+- Node.js 18+ 
+- npm или yarn
+- MetaMask или другой Web3 кошелёк
+
+### Установка
 
 ```bash
+# Клонировать репозиторий
+git clone https://github.com/ctrl111/FlightDeals-front.git
+
+# Перейти в директорию проекта
+cd FlightDeals-front
+
+# Установить зависимости
+npm install
+
+# Запустить в режиме разработки
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Откройте [http://localhost:3000](http://localhost:3000) в браузере.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## 🚀 Сборка для продакшена
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+# Создать оптимизированную сборку
+npm run build
 
-## Learn More
+# Запустить продакшен-сервер
+npm start
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 📁 Структура проекта
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+flight-deals-frontend/
+├── src/
+│   ├── app/                    # Next.js App Router
+│   │   ├── layout.js          # Основной layout
+│   │   ├── page.js            # Главная страница
+│   │   └── globals.css        # Глобальные стили
+│   ├── components/            # React компоненты
+│   │   ├── Navbar.js          # Навигационная панель
+│   │   ├── LandingPage.js     # Посадочная страница
+│   │   ├── Marketplace.js     # Рынок билетов
+│   │   ├── BookingPage.js     # Страница бронирования
+│   │   ├── UserProfile.js     # Профиль пользователя
+│   │   ├── AirlineDashboard.js # Панель авиакомпании
+│   │   ├── AdminPanel.js      # Панель администратора
+│   │   ├── CountdownTimer.js  # Таймер обратного отсчёта
+│   │   └── Notification.js    # Уведомления
+│   ├── data/
+│   │   └── mockData.js        # Тестовые данные
+│   └── utils/
+│       ├── animations.js      # Конфигурация анимаций
+│       ├── helpers.js         # Вспомогательные функции
+│       └── roleManager.js     # Управление ролями
+├── public/                    # Статические файлы
+└── docs/                      # Документация
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🎨 Особенности UI/UX
 
-## Deploy on Vercel
+- Современный минималистичный дизайн
+- Адаптивная вёрстка для всех устройств
+- Плавные анимации и переходы
+- Интуитивная навигация
+- Оптимизация для русскоязычных пользователей
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🔐 Безопасность
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Интеграция с MetaMask для безопасных транзакций
+- Все данные о билетах хранятся в блокчейне
+- Смарт-контракты обеспечивают прозрачность
+- Анонимность пользователей
+
+## 📝 Роли пользователей
+
+1. **Пользователь** - может просматривать и покупать билеты
+2. **Авиакомпания** - может публиковать и управлять рейсами
+3. **Администратор** - полный доступ к системе
+
+## 🌐 Локализация
+
+Проект полностью локализован на русский язык с учётом:
+- Правильного использования буквы "ё"
+- Профессиональной терминологии
+- Культурных особенностей
+
+## 📄 Лицензия
+
+MIT License
+
+## 👥 Автор
+
+Разработано для демонстрации возможностей Web3 технологий в авиационной индустрии.
+
+## 🤝 Вклад в проект
+
+Приветствуются pull requests. Для крупных изменений, пожалуйста, сначала откройте issue для обсуждения.
+
+## 📞 Контакты
+
+- GitHub: [@ctrl111](https://github.com/ctrl111)
+- Репозиторий: [FlightDeals-front](https://github.com/ctrl111/FlightDeals-front)
+
+---
+
+⭐ Если вам понравился проект, поставьте звезду на GitHub!
