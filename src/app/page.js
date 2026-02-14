@@ -1,65 +1,200 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import { useState, useEffect } from 'react';
+import { ShieldCheck } from 'lucide-react';
+import Navbar from '@/components/Navbar';
+import Notification from '@/components/Notification';
+import LandingPage from '@/components/LandingPage';
+import Marketplace from '@/components/Marketplace';
+import UserProfile from '@/components/UserProfile';
+import AirlineDashboard from '@/components/AirlineDashboard';
+import AdminPanel from '@/components/AdminPanel';
+import BookingPage from '@/components/BookingPage';
+import { INITIAL_FLIGHTS } from '@/data/mockData';
+import { getUserRole, canAccessPage } from '@/utils/roleManager';
+import { getRoleDisplayName } from '@/utils/helpers';
+
+export default function App() {
+  const [flights, setFlights] = useState(INITIAL_FLIGHTS);
+  const [wallet, setWallet] = useState(null);
+  const [view, setView] = useState('marketplace'); // По умолчанию показывать страницу рынка
+  const [role, setRole] = useState('user');
+  const [notification, setNotification] = useState(null);
+  const [myTickets, setMyTickets] = useState([]);
+  const [selectedFlight, setSelectedFlight] = useState(null); // Выбранный рейс для бронирования
+
+  useEffect(() => {
+    if (role === 'user' && (view === 'dashboard' || view === 'admin')) {
+      setView('marketplace');
+    }
+  }, [role, view]);
+
+  const showNotification = (msg, type = 'info') => {
+    setNotification({ message: msg, type });
+    setTimeout(() => setNotification(null), 3000);
+  };
+
+  const handleConnect = async () => {
+    // Имитация подключения кошелька
+    setTimeout(async () => {
+      const mockAddress = '0x71C7656EC7ab88b098defB751B7401B5f6d8976F';
+      setWallet(mockAddress);
+      
+      // Запрос роли пользователя
+      const userRole = await getUserRole(mockAddress);
+      setRole(userRole);
+      
+      showNotification(`Добро пожаловать! Роль: ${getRoleDisplayName(userRole)}`, 'success');
+      setView('marketplace');
+    }, 800);
+  };
+
+  const handleDisconnect = () => {
+    setWallet(null);
+    setRole('user');
+    showNotification('Кошелек отключен');
+    setView('marketplace'); // После отключения вернуться на страницу рынка, а не на страницу входа
+  };
+
+  // Демо-режим: ручное переключение ролей
+  const handleRoleChange = (newRole) => {
+    setRole(newRole);
+    showNotification(`Переключено на: ${getRoleDisplayName(newRole)}`, 'info');
+  };
+
+  const handleAddFlight = (newFlight) => {
+    const flight = {
+      ...newFlight,
+      id: Date.now(),
+      status: 'active',
+      soldCount: 0
+    };
+    setFlights([flight, ...flights]);
+    showNotification('Рейс опубликован в блокчейне', 'success');
+    setTimeout(() => setView('marketplace'), 1000);
+  };
+
+  const handleBuy = (flight) => {
+    if (!wallet) {
+      showNotification('Сначала подключите кошелек для бронирования билета', 'error');
+      // Можно перейти к подсказке о подключении кошелька
+      setTimeout(() => {
+        showNotification('Нажмите кнопку подключения кошелька в правом верхнем углу', 'info');
+      }, 1500);
+      return;
+    }
+    setSelectedFlight(flight);
+    setView('booking');
+  };
+
+  const handleConfirmBooking = (flight, passengerInfo) => {
+    const newTicket = {
+      ...flight,
+      ...passengerInfo,
+      purchaseId: Date.now(),
+      purchaseDate: new Date().toISOString(),
+      txHash: '0x' + Math.random().toString(16).substr(2, 64),
+      status: 'confirmed'
+    };
+    
+    // Обновление количества продаж рейса
+    setFlights(flights.map(f => 
+      f.id === flight.id 
+        ? { ...f, soldCount: (f.soldCount || 0) + 1 }
+        : f
+    ));
+    
+    setMyTickets([newTicket, ...myTickets]);
+    showNotification(`Успешная покупка: ${flight.from} -> ${flight.to}`, 'success');
+    setView('marketplace');
+    setSelectedFlight(null);
+  };
+
+  const handleBackFromBooking = () => {
+    setView('marketplace');
+    setSelectedFlight(null);
+  };
+
+  if (!wallet && view === 'landing') {
+    return (
+      <div className="min-h-screen bg-gray-50 font-sans text-gray-900">
+        {notification && (
+          <Notification 
+            message={notification.message} 
+            type={notification.type} 
+          />
+        )}
+        <LandingPage onConnect={handleConnect} />
+      </div>
+    );
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div className="min-h-screen bg-gray-50 font-sans text-gray-900">
+      {notification && (
+        <Notification 
+          message={notification.message} 
+          type={notification.type} 
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.js file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+      )}
+
+      <Navbar 
+        wallet={wallet} 
+        onDisconnect={handleDisconnect} 
+        role={role}
+        setRole={handleRoleChange}
+        setView={setView}
+        currentView={view}
+        onConnect={handleConnect}
+      />
+
+      <main className="pb-12">
+        {view === 'marketplace' && (
+          <Marketplace flights={flights} onBuy={handleBuy} wallet={wallet} />
+        )}
+
+        {view === 'booking' && selectedFlight && (
+          <BookingPage 
+            flight={selectedFlight} 
+            onBack={handleBackFromBooking}
+            onConfirm={handleConfirmBooking}
+            wallet={wallet}
+          />
+        )}
+
+        {view === 'profile' && (
+          <UserProfile wallet={wallet} myTickets={myTickets} />
+        )}
+        
+        {view === 'dashboard' && role === 'airline' && (
+          <AirlineDashboard 
+            onAddFlight={handleAddFlight} 
+            wallet={wallet}
+            flights={flights}
+          />
+        )}
+        
+        {view === 'admin' && role === 'admin' && (
+          <AdminPanel 
+            flights={flights}
+            wallet={wallet}
+          />
+        )}
+
+        {((view === 'dashboard' && role !== 'airline') || (view === 'admin' && role !== 'admin')) && (
+          <div className="flex flex-col items-center justify-center h-[60vh] text-center">
+            <ShieldCheck size={64} className="text-gray-300 mb-4" />
+            <h2 className="text-2xl font-bold text-gray-400">Доступ ограничен</h2>
+            <p className="text-gray-400 mt-2">Переключитесь на правильную роль для просмотра этой страницы</p>
+          </div>
+        )}
       </main>
+      
+      <footer className="bg-white border-t border-gray-200 py-8 mt-auto">
+        <div className="max-w-7xl mx-auto px-4 text-center text-gray-400 text-sm">
+          <p>© 2024 FlightDeals. Построено на блокчейне.</p>
+        </div>
+      </footer>
     </div>
   );
 }
