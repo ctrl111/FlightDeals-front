@@ -17,6 +17,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import CountdownTimer from './CountdownTimer';
+import { getMinDate, getMaxDate, formatRussianDateShort } from '@/utils/dateLocale';
 
 export default function Marketplace({ flights, onBuy, wallet }) {
   const [searchFrom, setSearchFrom] = useState('');
@@ -27,8 +28,7 @@ export default function Marketplace({ flights, onBuy, wallet }) {
   const [mounted, setMounted] = useState(false);
   const itemsPerPage = 9; // Показывать 9 на странице (3 столбца x 3 строки)
 
-  // Порог популярности: количество продаж более 10 считается популярным
-  const HOT_THRESHOLD = 10;
+  // 移除热门推荐功能
 
   useEffect(() => {
     setMounted(true);
@@ -157,9 +157,12 @@ export default function Marketplace({ flights, onBuy, wallet }) {
                 <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 transition-colors group-focus-within:text-blue-600" size={16} />
                 <input 
                   type="date" 
+                  min={getMinDate()}
+                  max={getMaxDate()}
                   className="w-full pl-10 pr-4 py-3 bg-white/80 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-sm hover:bg-white hover:shadow-sm"
                   value={searchDate}
                   onChange={(e) => setSearchDate(e.target.value)}
+                  placeholder="Выберите дату"
                 />
               </div>
               <button 
@@ -213,25 +216,13 @@ export default function Marketplace({ flights, onBuy, wallet }) {
         {/* Список рейсов - оптимизированный дизайн карточек */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {currentFlights.map((flight, index) => {
-            // Определение популярности на основе количества продаж
-            const isHot = flight.soldCount >= HOT_THRESHOLD;
-            
             return (
               <div 
                 key={flight.id} 
                 className="bg-white rounded-2xl shadow-md border border-gray-200 hover:shadow-2xl transition-all duration-300 flex flex-col group hover:-translate-y-2 animate-fade-in-up overflow-hidden relative"
                 style={{animationDelay: `${index * 0.1}s`}}
               >
-                {/* Метка популярности - на основе количества продаж */}
-                {isHot && (
-                  <div className="absolute top-3 left-3 z-10">
-                    <div className="bg-gradient-to-r from-red-500 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg flex items-center gap-1">
-                      🔥 Популярно
-                    </div>
-                  </div>
-                )}
-                
-                {/* Угловая метка скидки */}
+                {/* 角标标签 */}
                 {flight.discount && flight.discount > 0 && (
                   <div className="absolute top-3 right-3 z-10">
                     <div className="bg-green-500 text-white px-2.5 py-1 rounded-lg text-xs font-bold shadow-md">
@@ -289,7 +280,7 @@ export default function Marketplace({ flights, onBuy, wallet }) {
                     
                     <div className="text-[10px] text-gray-600 text-center mb-2.5 flex items-center justify-center gap-1">
                       <Calendar size={10} className="text-blue-600" />
-                      <span className="font-medium">{flight.departure.split('T')[0]}</span>
+                      <span className="font-medium">{formatRussianDateShort(flight.departure)}</span>
                     </div>
                     
                     {/* Метки */}

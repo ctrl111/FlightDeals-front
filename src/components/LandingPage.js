@@ -26,6 +26,31 @@ export default function LandingPage({ onConnect }) {
               FlightDeals использует технологию блокчейн для решения проблем овербукинга и непрозрачности цен на авиабилеты.
               Подключите свой криптокошелёк — регистрация не требуется. Начните безопасное путешествие прямо сейчас.
             </p>
+
+            {/* Платформенные функции */}
+            <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-6 mb-10 border border-blue-100">
+              <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span className="text-2xl">🎯</span>
+                Возможности платформы
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-all">
+                  <div className="text-3xl mb-2">👤</div>
+                  <h4 className="font-bold text-gray-900 mb-1 text-sm">Для пассажиров</h4>
+                  <p className="text-xs text-gray-600">Покупайте билеты с прозрачными ценами, без скрытых комиссий</p>
+                </div>
+                <div className="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-all">
+                  <div className="text-3xl mb-2">✈️</div>
+                  <h4 className="font-bold text-gray-900 mb-1 text-sm">Для авиакомпаний</h4>
+                  <p className="text-xs text-gray-600">Публикуйте рейсы и управляйте продажами в реальном времени</p>
+                </div>
+                <div className="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-all">
+                  <div className="text-3xl mb-2">🔐</div>
+                  <h4 className="font-bold text-gray-900 mb-1 text-sm">Блокчейн-гарантия</h4>
+                  <p className="text-xs text-gray-600">Все транзакции защищены смарт-контрактами</p>
+                </div>
+              </div>
+            </div>
             
             <div className="space-y-4">
               <button 

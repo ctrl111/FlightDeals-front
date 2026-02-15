@@ -17,7 +17,7 @@ import { getRoleDisplayName } from '@/utils/helpers';
 export default function App() {
   const [flights, setFlights] = useState(INITIAL_FLIGHTS);
   const [wallet, setWallet] = useState(null);
-  const [view, setView] = useState('marketplace'); // По умолчанию показывать страницу рынка
+  const [view, setView] = useState('landing'); // 默认显示首页
   const [role, setRole] = useState('user');
   const [notification, setNotification] = useState(null);
   const [myTickets, setMyTickets] = useState([]);
@@ -45,7 +45,7 @@ export default function App() {
       setRole(userRole);
       
       showNotification(`Добро пожаловать! Роль: ${getRoleDisplayName(userRole)}`, 'success');
-      setView('marketplace');
+      setView('marketplace'); // 连接后跳转到市场
     }, 800);
   };
 
@@ -53,7 +53,7 @@ export default function App() {
     setWallet(null);
     setRole('user');
     showNotification('Кошелек отключен');
-    setView('marketplace'); // После отключения вернуться на страницу рынка, а не на страницу входа
+    setView('landing'); // 断开连接后返回首页
   };
 
   // Демо-режим: ручное переключение ролей
@@ -115,7 +115,7 @@ export default function App() {
     setSelectedFlight(null);
   };
 
-  if (!wallet && view === 'landing') {
+  if (view === 'landing') {
     return (
       <div className="min-h-screen bg-gray-50 font-sans text-gray-900">
         {notification && (

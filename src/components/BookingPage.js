@@ -17,6 +17,7 @@ import {
   MapPin,
   Calendar
 } from 'lucide-react';
+import { formatRussianDateShort } from '@/utils/dateLocale';
 
 export default function BookingPage({ flight, onBack, onConfirm, wallet }) {
   const [step, setStep] = useState(1); // 1: Информация, 2: Подтверждение оплаты, 3: Успешная оплата
@@ -387,7 +388,7 @@ export default function BookingPage({ flight, onBack, onConfirm, wallet }) {
                   
                   <div className="flex items-center gap-2 text-xs text-gray-600 bg-white rounded-lg p-3 border border-gray-200">
                     <Calendar size={14} className="text-blue-600" />
-                    <span className="font-medium">{flight.departure.split('T')[0]}</span>
+                    <span className="font-medium">{formatRussianDateShort(flight.departure)}</span>
                   </div>
                 </div>
 

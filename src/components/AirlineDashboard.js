@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { LayoutDashboard, Coins, Plus, Plane, Calendar, Clock, TrendingUp, DollarSign, Edit, Trash2, Eye, Building2, Shield } from 'lucide-react';
+import { getMinDate, getMaxDate } from '@/utils/dateLocale';
 
 export default function AirlineDashboard({ onAddFlight, wallet, flights }) {
   const [formData, setFormData] = useState({
@@ -204,6 +205,8 @@ export default function AirlineDashboard({ onAddFlight, wallet, flights }) {
                   </label>
                   <input 
                     type="datetime-local" 
+                    min={getMinDate()}
+                    max={getMaxDate()}
                     className="w-full px-3 py-2.5 bg-gray-50/50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-sm"
                     value={formData.departure}
                     onChange={e => setFormData({...formData, departure: e.target.value})}

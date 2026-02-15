@@ -18,6 +18,7 @@ import {
   CreditCard,
   MapPin
 } from 'lucide-react';
+import { formatRussianDateShort } from '@/utils/dateLocale';
 
 export default function UserProfile({ wallet, myTickets }) {
   const [activeTab, setActiveTab] = useState('orders');
@@ -175,7 +176,7 @@ export default function UserProfile({ wallet, myTickets }) {
                         <div className="text-center flex-1 min-w-0">
                           <div className="text-lg font-bold text-gray-900 mb-0.5 break-words">{ticket.from.split(' ')[0]}</div>
                           <div className="text-xs text-gray-400 font-mono mb-0.5">{ticket.from.split(' ')[1]}</div>
-                          <div className="text-xs text-gray-600">{ticket.departure.split('T')[0]}</div>
+                          <div className="text-xs text-gray-600">{formatRussianDateShort(ticket.departure)}</div>
                         </div>
                         
                         <div className="flex flex-col items-center flex-shrink-0">
@@ -189,7 +190,7 @@ export default function UserProfile({ wallet, myTickets }) {
                         <div className="text-center flex-1 min-w-0">
                           <div className="text-lg font-bold text-gray-900 mb-0.5 break-words">{ticket.to.split(' ')[0]}</div>
                           <div className="text-xs text-gray-400 font-mono mb-0.5">{ticket.to.split(' ')[1]}</div>
-                          <div className="text-xs text-gray-600">{ticket.departure.split('T')[0]}</div>
+                          <div className="text-xs text-gray-600">{formatRussianDateShort(ticket.departure)}</div>
                         </div>
                       </div>
 
