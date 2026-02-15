@@ -192,7 +192,7 @@ export default function App() {
       
       <footer className="bg-white border-t border-gray-200 py-8 mt-auto">
         <div className="max-w-7xl mx-auto px-4 text-center text-gray-400 text-sm">
-          <p>© 2024 FlightDeals. Построено на блокчейне.</p>
+          <p>© 2026 FlightDeals. Построено на блокчейне.</p>
         </div>
       </footer>
     </div>
