@@ -18,7 +18,7 @@ import {
   CreditCard,
   MapPin
 } from 'lucide-react';
-import { formatRussianDateShort } from '@/utils/dateLocale';
+import { formatRussianDateShort, formatTime, formatDuration } from '@/utils/dateLocale';
 
 export default function UserProfile({ wallet, myTickets }) {
   const [activeTab, setActiveTab] = useState('orders');
@@ -174,9 +174,9 @@ export default function UserProfile({ wallet, myTickets }) {
                     <div className="flex-1 w-full">
                       <div className="flex items-center gap-3">
                         <div className="text-center flex-1 min-w-0">
-                          <div className="text-lg font-bold text-gray-900 mb-0.5 break-words">{ticket.from.split(' ')[0]}</div>
+                          <div className="text-sm font-bold text-gray-900 mb-0.5 break-words">{ticket.from.split(' ')[0]}</div>
                           <div className="text-xs text-gray-400 font-mono mb-0.5">{ticket.from.split(' ')[1]}</div>
-                          <div className="text-xs text-gray-600">{formatRussianDateShort(ticket.departure)}</div>
+                          <div className="text-xs font-bold text-blue-600">{formatTime(ticket.departure)}</div>
                         </div>
                         
                         <div className="flex flex-col items-center flex-shrink-0">
@@ -184,14 +184,22 @@ export default function UserProfile({ wallet, myTickets }) {
                             <div className="h-px bg-gray-300"></div>
                             <Plane className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 rotate-90 text-blue-600 bg-white p-0.5" size={18} />
                           </div>
-                          <span className="text-xs text-gray-400 mt-2 bg-gray-100 px-2 py-0.5 rounded-full max-w-[120px] break-words text-center">{ticket.airline}</span>
+                          <div className="text-xs text-gray-500 mt-2 flex items-center gap-1 bg-gray-100 px-2 py-0.5 rounded-full">
+                            <Clock size={10} />
+                            <span className="font-medium">{formatDuration(ticket.duration)}</span>
+                          </div>
+                          <span className="text-xs text-gray-400 mt-1 bg-gray-100 px-2 py-0.5 rounded-full max-w-[120px] break-words text-center">{ticket.airline}</span>
                         </div>
                         
                         <div className="text-center flex-1 min-w-0">
-                          <div className="text-lg font-bold text-gray-900 mb-0.5 break-words">{ticket.to.split(' ')[0]}</div>
+                          <div className="text-sm font-bold text-gray-900 mb-0.5 break-words">{ticket.to.split(' ')[0]}</div>
                           <div className="text-xs text-gray-400 font-mono mb-0.5">{ticket.to.split(' ')[1]}</div>
-                          <div className="text-xs text-gray-600">{formatRussianDateShort(ticket.departure)}</div>
+                          <div className="text-xs font-bold text-purple-600">{formatTime(ticket.arrival)}</div>
                         </div>
+                      </div>
+                      
+                      <div className="text-xs text-gray-600 text-center mt-2 bg-white rounded-lg p-2 border border-gray-200">
+                        📅 {formatRussianDateShort(ticket.departure)}
                       </div>
 
                       <div className="mt-3 flex items-center gap-3">

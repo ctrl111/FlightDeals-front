@@ -4,14 +4,16 @@ export const INITIAL_FLIGHTS = [
     from: 'Москва (SVO)',
     to: 'Санкт-Петербург (LED)',
     price: 450,
-    originalPrice: 550, // Исходная цена
-    discount: 18, // Процент скидки
+    originalPrice: 550,
+    discount: 18,
     airline: 'SkyWings Airlines',
-    departure: '2023-11-15T10:00:00',
+    departure: '2025-12-15T10:00:00',
+    arrival: '2025-12-15T11:30:00',
+    duration: 90, // минуты
     deadline: new Date(Date.now() + 3600000 * 2).toISOString(),
     status: 'active',
     walletAddress: '0x1234567890abcdef1234567890abcdef12345678',
-    soldCount: 15, // Количество продаж - для определения популярности
+    soldCount: 15,
     cabinClass: 'economy',
     hasBaggage: true,
     refundable: false
@@ -24,7 +26,9 @@ export const INITIAL_FLIGHTS = [
     originalPrice: 950,
     discount: 14,
     airline: 'NorthStar Aviation',
-    departure: '2023-11-20T14:30:00',
+    departure: '2025-12-20T14:30:00',
+    arrival: '2025-12-20T16:45:00',
+    duration: 135, // минуты
     deadline: new Date(Date.now() + 3600000 * 5).toISOString(),
     status: 'active',
     walletAddress: '0xabcdef1234567890abcdef1234567890abcdef12',
@@ -41,11 +45,13 @@ export const INITIAL_FLIGHTS = [
     originalPrice: 1400,
     discount: 14,
     airline: 'EagleJet Airways',
-    departure: '2023-12-01T08:00:00',
+    departure: '2025-12-25T08:00:00',
+    arrival: '2025-12-25T10:30:00',
+    duration: 150, // минуты
     deadline: new Date(Date.now() + 1800000).toISOString(),
     status: 'active',
     walletAddress: '0x9876543210fedcba9876543210fedcba98765432',
-    soldCount: 22, // Высокие продажи
+    soldCount: 22,
     cabinClass: 'economy',
     hasBaggage: true,
     refundable: false

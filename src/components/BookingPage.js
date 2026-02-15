@@ -17,7 +17,7 @@ import {
   MapPin,
   Calendar
 } from 'lucide-react';
-import { formatRussianDateShort } from '@/utils/dateLocale';
+import { formatRussianDateShort, formatTime, formatDuration } from '@/utils/dateLocale';
 
 export default function BookingPage({ flight, onBack, onConfirm, wallet }) {
   const [step, setStep] = useState(1); // 1: Информация, 2: Подтверждение оплаты, 3: Успешная оплата
@@ -365,8 +365,9 @@ export default function BookingPage({ flight, onBack, onConfirm, wallet }) {
                 <div>
                   <div className="flex items-center justify-between mb-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4">
                     <div className="flex-1 min-w-0">
-                      <div className="text-lg font-bold text-gray-900 break-words">{flight.from.split(' ')[0]}</div>
-                      <div className="text-xs text-gray-500 font-mono mt-1">{flight.from.split(' ')[1]}</div>
+                      <div className="text-sm font-bold text-gray-900 break-words">{flight.from.split(' ')[0]}</div>
+                      <div className="text-xs text-gray-500 font-mono mt-0.5">{flight.from.split(' ')[1]}</div>
+                      <div className="text-xs font-bold text-blue-600 mt-1">{formatTime(flight.departure)}</div>
                     </div>
                     
                     <div className="flex flex-col items-center px-3 flex-shrink-0">
@@ -376,13 +377,14 @@ export default function BookingPage({ flight, onBack, onConfirm, wallet }) {
                       </div>
                       <div className="text-xs text-gray-500 mt-2 flex items-center gap-1 bg-white px-2 py-0.5 rounded-full whitespace-nowrap">
                         <Clock size={10} />
-                        <span className="font-medium">8ч</span>
+                        <span className="font-medium">{formatDuration(flight.duration)}</span>
                       </div>
                     </div>
                     
                     <div className="text-right flex-1 min-w-0">
-                      <div className="text-lg font-bold text-gray-900 break-words">{flight.to.split(' ')[0]}</div>
-                      <div className="text-xs text-gray-500 font-mono mt-1">{flight.to.split(' ')[1]}</div>
+                      <div className="text-sm font-bold text-gray-900 break-words">{flight.to.split(' ')[0]}</div>
+                      <div className="text-xs text-gray-500 font-mono mt-0.5">{flight.to.split(' ')[1]}</div>
+                      <div className="text-xs font-bold text-purple-600 mt-1">{formatTime(flight.arrival)}</div>
                     </div>
                   </div>
                   

@@ -9,10 +9,11 @@ export default function AirlineDashboard({ onAddFlight, wallet, flights }) {
     from: '',
     to: '',
     price: '',
-    originalPrice: '', // Исходная цена
-    discount: '0', // Скидка
-    deadlineHours: '12', // По умолчанию 12 часов
+    originalPrice: '',
+    discount: '0',
+    deadlineHours: '12',
     departure: '',
+    arrival: '', // 到达时间
     companyName: '',
     cabinClass: 'economy',
     hasBaggage: true,
@@ -30,11 +31,16 @@ export default function AirlineDashboard({ onAddFlight, wallet, flights }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.from || !formData.to || !formData.price || !formData.companyName || !formData.departure) {
+    if (!formData.from || !formData.to || !formData.price || !formData.companyName || !formData.departure || !formData.arrival) {
       return;
     }
     
-    // Расчет фактической цены и исходной цены
+    // 计算飞行时长
+    const departureTime = new Date(formData.departure);
+    const arrivalTime = new Date(formData.arrival);
+    const duration = Math.round((arrivalTime - departureTime) / 60000); // 转换为分钟
+    
+    // 计算实际价格和原价
     const actualPrice = parseFloat(formData.price);
     const discount = parseFloat(formData.discount) || 0;
     const originalPrice = formData.originalPrice ? parseFloat(formData.originalPrice) : (discount > 0 ? Math.round(actualPrice / (1 - discount / 100)) : actualPrice);
@@ -47,12 +53,14 @@ export default function AirlineDashboard({ onAddFlight, wallet, flights }) {
       discount: discount,
       airline: formData.companyName,
       departure: formData.departure,
+      arrival: formData.arrival,
+      duration: duration,
       deadline: new Date(Date.now() + parseFloat(formData.deadlineHours) * 3600000).toISOString(),
       walletAddress: wallet,
       cabinClass: formData.cabinClass,
       hasBaggage: formData.hasBaggage,
       refundable: formData.refundable,
-      soldCount: 0 // Начальное количество продаж 0
+      soldCount: 0
     });
     setFormData({ 
       from: '', 
@@ -60,8 +68,9 @@ export default function AirlineDashboard({ onAddFlight, wallet, flights }) {
       price: '', 
       originalPrice: '',
       discount: '0',
-      deadlineHours: '12', // Сброс на значение по умолчанию 12 часов
-      departure: '', 
+      deadlineHours: '12',
+      departure: '',
+      arrival: '',
       companyName: '',
       cabinClass: 'economy',
       hasBaggage: true,
@@ -210,6 +219,19 @@ export default function AirlineDashboard({ onAddFlight, wallet, flights }) {
                     className="w-full px-3 py-2.5 bg-gray-50/50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-sm"
                     value={formData.departure}
                     onChange={e => setFormData({...formData, departure: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-gray-700 mb-2">
+                    Дата и время прибытия
+                  </label>
+                  <input 
+                    type="datetime-local" 
+                    min={formData.departure || getMinDate()}
+                    max={getMaxDate()}
+                    className="w-full px-3 py-2.5 bg-gray-50/50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-sm"
+                    value={formData.arrival}
+                    onChange={e => setFormData({...formData, arrival: e.target.value})}
                   />
                 </div>
                 <div>

@@ -17,7 +17,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import CountdownTimer from './CountdownTimer';
-import { getMinDate, getMaxDate, formatRussianDateShort } from '@/utils/dateLocale';
+import { getMinDate, getMaxDate, formatRussianDateShort, formatTime, formatDuration } from '@/utils/dateLocale';
 
 export default function Marketplace({ flights, onBuy, wallet }) {
   const [searchFrom, setSearchFrom] = useState('');
@@ -259,6 +259,7 @@ export default function Marketplace({ flights, onBuy, wallet }) {
                       <div className="flex-1 min-w-0 text-center">
                         <div className="text-sm font-bold text-gray-900 px-1 break-words">{flight.from.split(' ')[0]}</div>
                         <div className="text-[10px] text-gray-500 font-mono mt-0.5">{flight.from.split(' ')[1]}</div>
+                        <div className="text-xs font-bold text-blue-600 mt-1">{formatTime(flight.departure)}</div>
                       </div>
                       
                       <div className="flex flex-col items-center px-2 flex-shrink-0">
@@ -268,13 +269,14 @@ export default function Marketplace({ flights, onBuy, wallet }) {
                         </div>
                         <div className="text-[10px] text-gray-500 mt-1 flex items-center gap-0.5 bg-white px-1.5 py-0.5 rounded-full whitespace-nowrap">
                           <Clock size={8} />
-                          <span className="font-medium">8ч</span>
+                          <span className="font-medium">{formatDuration(flight.duration)}</span>
                         </div>
                       </div>
                       
                       <div className="flex-1 min-w-0 text-center">
                         <div className="text-sm font-bold text-gray-900 px-1 break-words">{flight.to.split(' ')[0]}</div>
                         <div className="text-[10px] text-gray-500 font-mono mt-0.5">{flight.to.split(' ')[1]}</div>
+                        <div className="text-xs font-bold text-purple-600 mt-1">{formatTime(flight.arrival)}</div>
                       </div>
                     </div>
                     

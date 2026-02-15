@@ -61,3 +61,24 @@ export const getMaxDate = () => {
   const day = nextYear.getDate().toString().padStart(2, '0');
   return `${year}-${month}-${day}`;
 };
+
+// Форматирование времени (HH:MM)
+export const formatTime = (dateString) => {
+  const date = new Date(dateString);
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+  return `${hours}:${minutes}`;
+};
+
+// Форматирование длительности полета
+export const formatDuration = (minutes) => {
+  const hours = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+  if (hours > 0 && mins > 0) {
+    return `${hours}ч ${mins}м`;
+  } else if (hours > 0) {
+    return `${hours}ч`;
+  } else {
+    return `${mins}м`;
+  }
+};
